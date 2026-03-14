@@ -1,0 +1,6 @@
+[submodule "CCE_FRONTEND"]
+	path = CCE_FRONTEND
+	url = https://github.com/hendrickBCYN/CCE_FRONTEND
+[submodule "CCE_BACKEND"]
+	path = CCE_BACKEND
+	url = https://github.com/hendrickBCYN/CCE_BACKEND
