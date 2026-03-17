@@ -24,30 +24,34 @@ CCE_PROJECT/
 
 The application follows a containerized **3-tier architecture**:
 
--**Frontend**: User interface + 3D Configurator 
--**Backend**: REST API, authentication, CRUD logic 
--**Persistence**: Data storage, Sequelize 6 ORM, persistent Docker volume
+| Layer | Role | Technologies |
+|-------|------|--------------|
+| **Presentation** | User interface + 3D Configurator | React 19, Vite, react-router-dom, react-unity-webgl, Unity 2022.3 WebGL |
+| **Business Logic** | REST API, authentication, CRUD logic | Node.js, Express 5, google-auth-library, jsonwebtoken, cors |
+| **Persistence** | Data storage | MySQL 8.0, Sequelize 6 ORM, persistent Docker volume |
 
 **Cross-cutting security**: Google OAuth 2.0 (SSO), JWT (stateless authentication), CORS (restrictive policy).
 
 **Unity ↔ React communication**: bidirectional bridge via `ReactBridge.jslib` (Unity → React) and `sendMessage` (React → Unity), managed by `NetworkManager.cs` on the Unity side and the `useUnity` hook on the React side.
 
 
-## Full Tech Stack
+## Stack
 
--Frontend: React 19.x
--Bundler: Vite 7.x
--Routing: react-router-dom 7.x
--Google Auth (client): @react-oauth/google 0.13.x
--HTTP: Client Axios 1.13.x 
--3D Integration: react-unity-webgl 10.1.x
--3D Engine: Unity 2022.3 (WebGL)
--Backend: Express 5.x
--ORM: Sequelize 6.x
--DBMS: MySQL 8.0
--Google Auth (server): google-auth-library 10.x
--JWT: jsonwebtoken 9.x
--Containerization: Docker + Docker Compose
+| Component | Technology | Version |
+|-----------|------------|---------|
+| Frontend | React | 19.x |
+| Bundler | Vite | 7.x |
+| Routing | react-router-dom | 7.x |
+| Google Auth (client) | @react-oauth/google | 0.13.x |
+| HTTP Client | Axios | 1.13.x |
+| 3D Integration | react-unity-webgl | 10.1.x |
+| 3D Engine | Unity | 2022.3 (WebGL) |
+| Backend | Express | 5.x |
+| ORM | Sequelize | 6.x |
+| DBMS | MySQL | 8.0 |
+| Google Auth (server) | google-auth-library | 10.x |
+| JWT | jsonwebtoken | 9.x |
+| Containerization | Docker + Docker Compose | — |
 
 
 ## Prerequisites
@@ -117,41 +121,51 @@ The Vite proxy automatically forwards `/api` requests to `http://localhost:3000`
 
 ### Frontend (`CCE_FRONTEND/.env`)
 
--`VITE_GOOGLE_CLIENT_ID`: Google OAuth 2.0 Client ID
--`VITE_API_URL`: Backend API URL (default: `http://localhost:3000/api`)
+| Variable | Description |
+|----------|-------------|
+| `VITE_GOOGLE_CLIENT_ID` | Google OAuth 2.0 Client ID |
+| `VITE_API_URL` | Backend API URL (default: `http://localhost:3000/api`) |
 
 ### Backend (`CCE_BACKEND/.env`)
 
--`PORT`: Express server port (default: `3000`) 
--`DB_HOST`: MySQL host (default: `localhost`, Docker: `db`)
--`DB_PORT`: MySQL port (default: `3306`) 
--`DB_NAME`: Database name (default: `cce_db`) 
--`DB_USER`: MySQL user
--`DB_PASSWORD`: MySQL password
--`JWT_SECRET`: JWT signing secret
--`GOOGLE_CLIENT_ID`: Google OAuth 2.0 Client ID
+| Variable | Description |
+|----------|-------------|
+| `PORT` | Express server port (default: `3000`) |
+| `DB_HOST` | MySQL host (default: `localhost`, Docker: `db`) |
+| `DB_PORT` | MySQL port (default: `3306`) |
+| `DB_NAME` | Database name (default: `cce_db`) |
+| `DB_USER` | MySQL user |
+| `DB_PASSWORD` | MySQL password |
+| `JWT_SECRET` | JWT signing secret |
+| `GOOGLE_CLIENT_ID` | Google OAuth 2.0 Client ID |
 
 
 ## API Endpoints
 
 ### Authentication
 
--`POST` `/api/auth/google`: Login via Google credential → application JWT 
--`GET` `/api/auth/verify`: Verify JWT validity 
+| Method | Route | Description | Auth |
+|--------|-------|-------------|:----:|
+| `POST` | `/api/auth/google` | Login via Google credential → application JWT | No |
+| `GET` | `/api/auth/verify` | Verify JWT validity | Yes | 
 
 ### Configurations
 
--`GET` `/api/configurations`: List the authenticated user's configurations
--`GET` `/api/configurations/:id`: Retrieve a configuration by ID 
--`POST` `/api/configurations`: Create a new configuration 
+| Method | Route | Description | Auth |
+|--------|-------|-------------|:----:|
+| `GET` | `/api/configurations` | List the authenticated user's configurations | Yes |
+| `GET` | `/api/configurations/:id` | Retrieve a configuration by ID | Yes |
+| `POST` | `/api/configurations` | Create a new configuration | Yes | 
 
 
 ## Data Model
 
 Two entities linked by a **0:N** relationship (one user owns 0 to N configurations):
 
--**users**: `id`, `google_id`, `email`, `display_name`, `avatar_url`, `role`, `created_at`, `updated_at` 
--**configurations**: `id`, `user_id` (FK), `name`, `unity_data` (JSON), `is_latest`, `created_at`, `updated_at`
+| Table | Main Fields |
+|-------|-------------|
+| **users** | `id`, `google_id`, `email`, `display_name`, `avatar_url`, `role`, `created_at`, `updated_at` |
+| **configurations** | `id`, `user_id` (FK), `name`, `unity_data` (JSON), `is_latest`, `created_at`, `updated_at` |
 
 
 ## Submodule Management
@@ -166,8 +180,10 @@ git submodule update --init --recursive
 
 Each submodule points to its own GitHub repository with its own commit history, branches, and README:
 
-`CCE_FRONTEND` | [hendrickBCYN/CCE_FRONTEND](https://github.com/hendrickBCYN/CCE_FRONTEND) |
-`CCE_BACKEND` | [hendrickBCYN/CCE_BACKEND](https://github.com/hendrickBCYN/CCE_BACKEND) |
+| Submodule | Repository |
+|-----------|------------|
+| `CCE_FRONTEND` | [hendrickBCYN/CCE_FRONTEND](https://github.com/hendrickBCYN/CCE_FRONTEND) |
+| `CCE_BACKEND` | [hendrickBCYN/CCE_BACKEND](https://github.com/hendrickBCYN/CCE_BACKEND) |
 
 
 ## Planned Improvements
