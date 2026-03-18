@@ -189,5 +189,4 @@ Each submodule points to its own GitHub repository with its own commit history, 
 ## Planned Improvements
 
 - **Configuration management UI**: full CRUD on the React side (list, select, delete)
-- **Frontend Dockerfile**: production image with Nginx to serve the Vite build
 - **CI/CD**: continuous integration pipeline 
