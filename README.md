@@ -11,7 +11,7 @@ The project is organized as a **mono-repo with Git submodules**, orchestrated by
 
 ```
 CCE_PROJECT/
-├── CCE_FRONTEND/          # Submodule — React 19 + Vite + Unity WebGL application
+├── CCE_FRONTEND/          # Submodule — React + Vite + Unity WebGL application
 ├── CCE_BACKEND/           # Submodule — Node.js/Express REST API + Sequelize
 ├── docker-compose.yml     # Orchestration of 3 services (frontend, backend, db)
 ├── .gitmodules            
