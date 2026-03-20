@@ -8,6 +8,7 @@ services:
       - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+    restart: always
 
   backend:
     build: ./CCE_BACKEND
@@ -24,6 +25,7 @@ services:
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
     depends_on:
       - db
+    restart: always
       
   frontend:
     build:
@@ -34,6 +36,7 @@ services:
       - "8080:80"
     depends_on:
       - backend
+    restart: always
 
 volumes:
   mysql_data:
